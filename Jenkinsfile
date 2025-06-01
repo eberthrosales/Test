@@ -17,18 +17,18 @@ pipeline {
             }
         }
 
-        // A partir de aquí, entramos en turismo-fronted
+        // A partir de aquí, entramos en turismo-frontend
         stage('Install dependencies') {
             steps {
-                dir('turismo-fronted') {
+                dir('turismo-frontend') {
                     sh 'npm install'
                 }
             }
         }
 
-		stage('Unit tests + Coverage') {
+		stage('Unit test') {
 		  steps {
-			dir('turismo-fronted') {
+			dir('turismo-frontend') {
 			  sh 'npm run test -- --watch=false --browsers=ChromeHeadless --code-coverage'
 			}
 		  }
@@ -37,7 +37,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                dir('turismo-fronted') {
+                dir('turismo-frontend') {
 				
                     sh 'npm run build'
                 }
@@ -46,7 +46,7 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                dir('turismo-fronted') {
+                dir('turismo-frontend') {
 						withSonarQubeEnv('sonarqube') {
 							sh 'npx sonar-scanner'
 						}
